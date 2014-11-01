@@ -53,8 +53,6 @@
 #define PPM_DURATION			10
 #define PPM_DUMP_TIME			5
 
-#define SCAN_LIMIT			2500000000
-
 struct time_generic
 /* holds all the platform specific values */
 {
@@ -201,9 +199,8 @@ static void ppm_test(uint32_t len)
 	static uint64_t interval = 0;
 	static uint64_t nsamples_total = 0;
 	static uint64_t interval_total = 0;
-	static struct time_generic ppm_now;
+	struct time_generic ppm_now;
 	static struct time_generic ppm_recent;
-
 	static enum {
 		PPM_INIT_NO,
 		PPM_INIT_DUMP,
@@ -231,6 +228,7 @@ static void ppm_test(uint32_t len)
 		ppm_init = PPM_INIT_RUN;
 		return;
 	}
+
 	nsamples += (uint64_t)(len / 2UL);
 	interval = (uint64_t)(ppm_now.tv_sec - ppm_recent.tv_sec);
 	if (interval < ppm_duration)
@@ -251,6 +249,7 @@ static void ppm_test(uint32_t len)
 static void rtlsdr_callback(unsigned char *buf, uint32_t len, void *ctx)
 {
 	underrun_test(buf, len, 0);
+
 	if (test_mode == PPM_BENCHMARK)
 		ppm_test(len);
 }
