@@ -6,7 +6,6 @@ includedir=@includedir@
 Name: RTL-SDR Library
 Description: C Utility Library
 Version: @VERSION@
-Cflags: -I${includedir}/ @RTLSDR_PC_CFLAGS@
+Cflags: -I${includedir}/
 Libs: -L${libdir} -lrtlsdr
-Libs.private: @RTLSDR_PC_LIBS@
-Requires: libusb-1.0
+Libs.private:  -lusb-1.0 @RTLSDR_PC_LIBS@
