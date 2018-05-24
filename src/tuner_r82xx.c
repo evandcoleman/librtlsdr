@@ -830,13 +830,17 @@ static int r82xx_init_tv_standard(struct r82xx_priv *priv,
 	uint32_t if_khz, filt_cal_lo;
 	uint8_t filt_gain, img_r, ext_enable, loop_through;
 	uint8_t lt_att, flt_ext_widest, polyfil_cur;
+	int need_calibration;
 
-	if_khz = R82XX_DEFAULT_IF_FREQ/1000;
+	/* BW < 6 MHz */
+	if_khz = 3570;
 	filt_cal_lo = 56000;	/* 52000->56000 */
 	filt_gain = 0x10;	/* +3db, 6mhz on */
 	img_r = 0x00;		/* image negative */
+	filt_q = 0x10;		/* r10[4]:low q(1'b1) */
+	hp_cor = 0x6b;		/* 1.7m disable, +2cap, 1.0mhz */
 	ext_enable = 0x60;	/* r30[6]=1 ext enable; r30[5]:1 ext at lna max-1 */
-	loop_through = 0x00;	/* r5[7], lt on */
+	loop_through = 0x01;	/* r5[7], lt off */
 	lt_att = 0x00;		/* r31[7], lt att enable */
 	flt_ext_widest = 0x00;	/* r15[7]: flt_ext_wide off */
 	polyfil_cur = 0x60;	/* r25[6:5]:min */
@@ -1237,7 +1241,7 @@ int r82xx_standby(struct r82xx_priv *priv)
 	rc = r82xx_write_reg(priv, 0x06, 0xb1);
 	if (rc < 0)
 		return rc;
-	rc = r82xx_write_reg(priv, 0x05, 0x03);
+	rc = r82xx_write_reg(priv, 0x05, 0xa0);
 	if (rc < 0)
 		return rc;
 	rc = r82xx_write_reg(priv, 0x07, 0x3a);
