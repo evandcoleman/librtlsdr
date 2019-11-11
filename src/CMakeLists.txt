@@ -119,7 +119,7 @@ target_link_libraries(rtl_power convenience_static rtlsdr_shared
 if(UNIX)
 target_link_libraries(rtl_adsb m)
 target_link_libraries(rtl_power m)
-if(APPLE)
+if(APPLE OR CMAKE_SYSTEM MATCHES "OpenBSD")
     target_link_libraries(rtl_test m)
     target_link_libraries(rtl_fm m)
 else()
