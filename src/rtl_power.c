@@ -1127,9 +1127,6 @@ int main(int argc, char **argv)
 		case 'P':
 			ms.peak_hold = 1;
 			break;
-		case 'T':
-			ms.peak_hold = -1;
-			break;
 		case 'L':
 			ms.linear = 1;
 			break;
