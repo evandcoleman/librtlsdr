@@ -49,6 +49,7 @@
 #define MAXIMAL_BUF_LENGTH		(256 * 16384)
 
 #define MHZ(x)	((x)*1000*1000)
+#define SCAN_LIMIT			2500000000
 
 #define PPM_DURATION			10
 #define PPM_DUMP_TIME			5

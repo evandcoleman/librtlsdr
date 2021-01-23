@@ -131,7 +131,6 @@ struct rtlsdr_dev {
 };
 
 void rtlsdr_set_gpio_bit(rtlsdr_dev_t *dev, uint8_t gpio, int val);
-static int rtlsdr_set_if_freq(rtlsdr_dev_t *dev, uint32_t freq);
 
 /* generic tuner interface functions, shall be moved to the tuner implementations */
 int e4000_init(void *dev) {
@@ -256,6 +255,11 @@ int r820t_set_bw(void *dev, int bw) {
 	if (r)
 		return r;
 	return rtlsdr_set_center_freq(devt, devt->freq);
+}
+
+int r820t_set_if_freq(void *dev, uint32_t freq) {
+	rtlsdr_dev_t* devt = (rtlsdr_dev_t*)dev;
+	return r82xx_set_if_freq(&devt->r82xx_p, freq);
 }
 
 int r820t_set_gain(void *dev, int gain) {
@@ -697,7 +701,7 @@ int rtlsdr_deinit_baseband(rtlsdr_dev_t *dev)
 	return r;
 }
 
-static int rtlsdr_set_if_freq(rtlsdr_dev_t *dev, uint32_t freq)
+int rtlsdr_set_if_freq(rtlsdr_dev_t *dev, uint32_t freq)
 {
 	uint32_t rtl_xtal;
 	int32_t if_freq;
